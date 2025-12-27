@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BESPAR | 3D Baskı ve Prototipleme Çözümleri</title>
+    <meta name="description" content="BESPAR - Profesyonel 3D baskı, modelleme ve üretim hizmetleri. Hayallerinizi gerçeğe dönüştürüyoruz.">
+    
+    <!-- Tailwind CSS (Hızlı stil oluşturma için) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome (İkonlar için) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Konfigürasyon ve Özel Stiller -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                            dark: '#0f172a',
+                            darker: '#020617'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Özel Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0ea5e9;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0284c7;
+        }
+
+        /* Cam Efekti (Glassmorphism) */
+        .glass {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+        }
+
+        /* Animasyon Sınıfları */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-brand-darker text-white antialiased overflow-x-hidden">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 glass transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 cursor-pointer">
+                    <a href="#" class="flex items-center gap-2">
+                        <i class="fa-solid fa-cube text-3xl text-brand-400"></i>
+                        <span class="text-2xl font-bold tracking-tighter text-white">BESPAR</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="hover:text-brand-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">Anasayfa</a>
+                        <a href="#services" class="hover:text-brand-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">Hizmetler</a>
+                        <a href="#showcase" class="hover:text-brand-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">Ürünler</a>
+                        <a href="#process" class="hover:text-brand-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">Süreç</a>
+                        <a href="#contact" class="bg-brand-600 hover:bg-brand-500 text-white px-5 py-2 rounded-full text-sm font-bold transition-all shadow-[0_0_15px_rgba(14,165,233,0.5)]">İletişime Geç</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div class="md:hidden hidden bg-brand-dark border-b border-gray-800" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="block hover:bg-gray-800 px-3 py-2 rounded-md text-base font-medium">Anasayfa</a>
+                <a href="#services" class="block hover:bg-gray-800 px-3 py-2 rounded-md text-base font-medium">Hizmetler</a>
+                <a href="#showcase" class="block hover:bg-gray-800 px-3 py-2 rounded-md text-base font-medium">Ürünler</a>
+                <a href="#process" class="block hover:bg-gray-800 px-3 py-2 rounded-md text-base font-medium">Süreç</a>
+                <a href="#contact" class="block text-brand-400 font-bold px-3 py-2 rounded-md text-base">İletişime Geç</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute top-0 left-0 w-full h-full z-0">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-600/20 rounded-full blur-[100px] animate-pulse-slow"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-600/20 rounded-full blur-[100px] animate-pulse-slow" style="animation-delay: 2s;"></div>
+            <!-- Grid Pattern -->
+            <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+            <div class="absolute inset-0" style="background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.1;"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
+            <!-- Text Content -->
+            <div class="w-full md:w-1/2 text-center md:text-left mb-12 md:mb-0 reveal active">
+                <h2 class="text-brand-400 font-semibold tracking-wider uppercase mb-4 text-sm">Hayalden Gerçeğe</h2>
+                <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-6">
+                    Geleceği <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-purple-500">Katman Katman</span> <br>
+                    İnşa Ediyoruz
+                </h1>
+                <p class="text-gray-400 text-lg mb-8 max-w-lg mx-auto md:mx-0">
+                    BESPAR olarak endüstriyel kalitede 3D baskı, modelleme ve prototipleme hizmeti sunuyoruz. Özel tasarımlarınızı üretiyor veya hazır ürünlerimizi mağazalarımızda sunuyoruz.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <a href="#showcase" class="px-8 py-4 rounded-lg bg-brand-600 hover:bg-brand-500 text-white font-bold transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(14,165,233,0.4)] border border-brand-500">
+                        Ürünleri İncele
+                    </a>
+                    <a href="#contact" class="px-8 py-4 rounded-lg bg-transparent hover:bg-gray-800 text-white font-bold border border-gray-600 transition-all hover:border-brand-400">
+                        Teklif Al
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3D Image Placeholder -->
+            <div class="w-full md:w-1/2 flex justify-center reveal active" style="transition-delay: 200ms;">
+                <div class="relative w-full max-w-md animate-float">
+                    <img src="https://images.unsplash.com/photo-1631541909061-71e349d1f203?q=80&w=1000&auto=format&fit=crop" 
+                         alt="3D Yazıcı" 
+                         class="rounded-2xl shadow-2xl border border-gray-700 w-full object-cover h-[400px] z-10 relative">
+                    <!-- Decorative Ring -->
+                    <div class="absolute -inset-4 border-2 border-brand-500/30 rounded-2xl z-0 transform rotate-6"></div>
+                    <div class="absolute -inset-4 border-2 border-purple-500/30 rounded-2xl z-0 transform -rotate-3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-brand-dark relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Hizmetlerimiz</h2>
+                <div class="h-1 w-20 bg-brand-500 mx-auto rounded-full"></div>
+                <p class="mt-4 text-gray-400 max-w-2xl mx-auto">Fikir aşamasından son ürüne kadar uçtan uca üretim desteği.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="bg-gray-900/50 p-8 rounded-2xl border border-gray-800 hover:border-brand-500 transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,165,233,0.15)] group reveal">
+                    <div class="w-14 h-14 bg-brand-900/50 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-layer-group text-2xl text-brand-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 group-hover:text-brand-400 transition-colors">FDM 3D Baskı</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        PLA, PETG, ABS ve TPU gibi çeşitli filamentlerle dayanıklı, fonksiyonel parçalar ve prototipler üretiyoruz. Geniş hacimli üretim kapasitesi.
+                    </p>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="bg-gray-900/50 p-8 rounded-2xl border border-gray-800 hover:border-brand-500 transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,165,233,0.15)] group reveal" style="transition-delay: 100ms;">
+                    <div class="w-14 h-14 bg-purple-900/50 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-wand-magic-sparkles text-2xl text-purple-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 group-hover:text-purple-400 transition-colors">SLA (Reçine) Baskı</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Yüksek detay gerektiren figürler, takı modelleri ve dişçilik uygulamaları için mikron hassasiyetinde pürüzsüz yüzeyli reçine baskılar.
+                    </p>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="bg-gray-900/50 p-8 rounded-2xl border border-gray-800 hover:border-brand-500 transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,165,233,0.15)] group reveal" style="transition-delay: 200ms;">
+                    <div class="w-14 h-14 bg-orange-900/50 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-pen-ruler text-2xl text-orange-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 group-hover:text-orange-400 transition-colors">3D Modelleme & Tasarım</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Fikirlerinizi teknik çizimlere dönüştürüyoruz. Tersine mühendislik, CAD çizimi ve üretime uygun optimizasyon hizmetleri.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Showcase (External Links) -->
+    <section id="showcase" class="py-24 relative overflow-hidden">
+        <!-- Background Decor -->
+        <div class="absolute inset-0 bg-brand-900/10 skew-y-3 transform origin-top-left -z-10"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 reveal">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-2">Öne Çıkan Ürünler</h2>
+                    <p class="text-gray-400">Tasarladığımız ürünleri güvenilir pazaryerlerinden satın alabilirsiniz.</p>
+                </div>
+                <!-- Platform Icons -->
+                <div class="flex gap-4 mt-4 md:mt-0 opacity-70">
+                    <span class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-1">Satış Noktalarımız:</span>
+                    <div class="flex gap-3">
+                         <!-- Mock Logos with Text -->
+                         <span class="bg-orange-500/20 text-orange-400 px-2 py-1 rounded text-xs border border-orange-500/30">Trendyol</span>
+                         <span class="bg-blue-500/20 text-blue-400 px-2 py-1 rounded text-xs border border-blue-500/30">Shopier</span>
+                         <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs border border-green-500/30">Etsy</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Product 1 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden group hover:transform hover:-translate-y-2 transition-all duration-300 shadow-lg reveal">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1622340274959-15d2a9d82136?q=80&w=400&auto=format&fit=crop" alt="Ürün 1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-2 right-2 bg-brand-600 text-xs font-bold px-2 py-1 rounded text-white">Stokta</div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Star Wars Figür Seti</h3>
+                        <p class="text-gray-400 text-xs mb-4">Yüksek detaylı SLA reçine baskı, boyanabilir yüzey.</p>
+                        <a href="https://www.trendyol.com" target="_blank" class="block w-full text-center bg-orange-600 hover:bg-orange-500 text-white text-sm font-semibold py-2 rounded transition-colors">
+                            <i class="fa-solid fa-bag-shopping mr-2"></i>Trendyol'da İncele
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden group hover:transform hover:-translate-y-2 transition-all duration-300 shadow-lg reveal" style="transition-delay: 100ms;">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1544256667-46342898951d?q=80&w=400&auto=format&fit=crop" alt="Ürün 2" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Parametrik Vazo</h3>
+                        <p class="text-gray-400 text-xs mb-4">Modern ev dekorasyonu için PLA+ mat siyah vazo.</p>
+                        <a href="https://www.shopier.com" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold py-2 rounded transition-colors">
+                            <i class="fa-solid fa-cart-shopping mr-2"></i>Shopier'den Al
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden group hover:transform hover:-translate-y-2 transition-all duration-300 shadow-lg reveal" style="transition-delay: 200ms;">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1563911302283-d2bc129e7c1f?q=80&w=400&auto=format&fit=crop" alt="Ürün 3" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Mekanik Dişli Seti</h3>
+                        <p class="text-gray-400 text-xs mb-4">Mühendislik projeleri için dayanıklı PETG dişli seti.</p>
+                        <a href="https://www.hepsiburada.com" target="_blank" class="block w-full text-center bg-orange-700 hover:bg-orange-600 text-white text-sm font-semibold py-2 rounded transition-colors">
+                            <i class="fa-solid fa-store mr-2"></i>Hepsiburada
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden group hover:transform hover:-translate-y-2 transition-all duration-300 shadow-lg reveal" style="transition-delay: 300ms;">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1522855452341-4334d7d7dbe2?q=80&w=400&auto=format&fit=crop" alt="Ürün 4" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Kişiye Özel Anahtarlık</h3>
+                        <p class="text-gray-400 text-xs mb-4">İsim yazılı, çift renkli özel tasarım anahtarlıklar.</p>
+                        <a href="https://www.etsy.com" target="_blank" class="block w-full text-center bg-green-600 hover:bg-green-500 text-white text-sm font-semibold py-2 rounded transition-colors">
+                            <i class="fa-brands fa-etsy mr-2"></i>Etsy Mağazası
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="mt-12 text-center">
+                <a href="#" class="inline-flex items-center text-brand-400 hover:text-white transition-colors border-b border-brand-400 pb-1">
+                    Tüm Ürünleri Görüntüle <i class="fa-solid fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" class="py-24 bg-brand-dark border-y border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Nasıl Çalışır?</h2>
+                <p class="text-gray-400">Özel siparişleriniz için üretim sürecimiz.</p>
+            </div>
+
+            <div class="relative">
+                <!-- Connecting Line (Desktop) -->
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-gray-800 -translate-y-1/2 z-0"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
+                    <!-- Step 1 -->
+                    <div class="bg-brand-dark p-6 rounded-xl border border-gray-800 text-center reveal">
+                        <div class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-brand-dark text-brand-400 text-2xl font-bold">1</div>
+                        <h3 class="text-lg font-bold mb-2">Model Gönder</h3>
+                        <p class="text-gray-400 text-sm">.STL veya .OBJ dosyanızı veya sadece fikrinizi bize iletin.</p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="bg-brand-dark p-6 rounded-xl border border-gray-800 text-center reveal" style="transition-delay: 100ms;">
+                        <div class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-brand-dark text-brand-400 text-2xl font-bold">2</div>
+                        <h3 class="text-lg font-bold mb-2">Analiz & Teklif</h3>
+                        <p class="text-gray-400 text-sm">Modeli inceler, malzeme seçer ve fiyat teklifi sunarız.</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="bg-brand-dark p-6 rounded-xl border border-gray-800 text-center reveal" style="transition-delay: 200ms;">
+                        <div class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-brand-dark text-brand-400 text-2xl font-bold">3</div>
+                        <h3 class="text-lg font-bold mb-2">Üretim</h3>
+                        <p class="text-gray-400 text-sm">Yüksek hassasiyetli yazıcılarımızda baskı işlemini başlatırız.</p>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="bg-brand-dark p-6 rounded-xl border border-gray-800 text-center reveal" style="transition-delay: 300ms;">
+                        <div class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-brand-dark text-brand-400 text-2xl font-bold">4</div>
+                        <h3 class="text-lg font-bold mb-2">Teslimat</h3>
+                        <p class="text-gray-400 text-sm">Temizleme ve son işlem sonrası kargoya veririz.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 bg-gray-900 rounded-3xl overflow-hidden border border-gray-800 shadow-2xl">
+                
+                <!-- Contact Info -->
+                <div class="p-10 bg-brand-600 text-white relative overflow-hidden reveal">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                    <div class="absolute bottom-0 left-0 w-40 h-40 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+                    
+                    <h3 class="text-3xl font-bold mb-6">İletişime Geçin</h3>
+                    <p class="mb-8 text-brand-100">Özel projeleriniz, toplu üretim talepleriniz veya işbirliği için bize ulaşın. En kısa sürede dönüş yapacağız.</p>
+                    
+                    <div class="space-y-6 relative z-10">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-brand-100 mb-1">Telefon</p>
+                                <p class="font-bold">+90 (555) 123 45 67</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-brand-100 mb-1">E-posta</p>
+                                <p class="font-bold">info@bespar3d.com</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-brand-100 mb-1">Adres</p>
+                                <p class="font-bold">Teknoloji Geliştirme Bölgesi, No: 42<br>İstanbul, Türkiye</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12">
+                        <p class="text-sm mb-4">Bizi Takip Edin</p>
+                        <div class="flex gap-4">
+                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="p-10 reveal" style="transition-delay: 200ms;">
+                    <form onsubmit="event.preventDefault(); alert('Mesajınız başarıyla gönderildi! Sizinle en kısa sürede iletişime geçeceğiz.');" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Adınız Soyadınız</label>
+                            <input type="text" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors" placeholder="Ahmet Yılmaz">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">E-posta Adresiniz</label>
+                            <input type="email" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors" placeholder="ornek@email.com">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Konu</label>
+                            <select class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors">
+                                <option>Özel Baskı Teklifi</option>
+                                <option>Ürün Bilgisi</option>
+                                <option>İşbirliği</option>
+                                <option>Diğer</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Mesajınız</label>
+                            <textarea rows="4" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors" placeholder="Projenizden bahsedin..."></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-white text-brand-900 font-bold py-4 rounded-lg hover:bg-gray-100 transition-colors shadow-lg transform active:scale-95">
+                            Mesaj Gönder <i class="fa-solid fa-paper-plane ml-2"></i>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-cube text-brand-500 text-xl"></i>
+                <span class="text-xl font-bold tracking-tighter">BESPAR</span>
+            </div>
+            
+            <p class="text-gray-500 text-sm text-center md:text-left">
+                &copy; 2023 BESPAR 3D Technology. Tüm hakları saklıdır.
+            </p>
+
+            <div class="flex gap-6 text-sm text-gray-500">
+                <a href="#" class="hover:text-white transition-colors">Gizlilik Politikası</a>
+                <a href="#" class="hover:text-white transition-colors">Kullanım Şartları</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mobil Menü Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Scroll Animasyonları (Intersection Observer)
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Sadece bir kere çalışsın
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Navbar Scroll Efekti
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-lg');
+                nav.style.background = 'rgba(2, 6, 23, 0.9)';
+            } else {
+                nav.classList.remove('shadow-lg');
+                nav.style.background = 'rgba(15, 23, 42, 0.7)';
+            }
+        });
+    </script>
+</body>
+</html>
