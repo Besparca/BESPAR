@@ -259,41 +259,90 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="py-24 bg-brand-dark relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Hizmetlerimiz</h2>
-                <div class="h-1 w-20 bg-brand-500 mx-auto rounded-full"></div>
-                <p class="mt-4 text-gray-400 max-w-2xl mx-auto">Fikir aşamasından son ürüne kadar uçtan uca üretim desteği.</p>
-            </div>
+<!-- Services Section -->
+<section id="services" class="py-28 bg-brand-dark relative overflow-hidden">
+    
+    <!-- Background Glow -->
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-500/10 blur-[120px] rounded-full"></div>
+    </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-gray-900/50 p-8 rounded-2xl border border-gray-800 hover:border-brand-500 transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,165,233,0.15)] group reveal">
-                    <div class="w-14 h-14 bg-brand-900/50 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-layer-group text-2xl text-brand-400"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 group-hover:text-brand-400 transition-colors">FDM 3D Baskı</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">PLA, PETG, ABS ve TPU gibi çeşitli filamentlerle dayanıklı parçalar üretiyoruz.</p>
-                </div>
-
-                <div class="bg-gray-900/50 p-8 rounded-2xl border border-gray-800 hover:border-brand-500 transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,165,233,0.15)] group reveal" style="transition-delay: 100ms;">
-                    <div class="w-14 h-14 bg-purple-900/50 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-wand-magic-sparkles text-2xl text-purple-400"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 group-hover:text-purple-400 transition-colors">SLA (Reçine) Baskı</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Yüksek detay gerektiren figürler için mikron hassasiyetinde pürüzsüz baskılar.</p>
-                </div>
-
-                <div class="bg-gray-900/50 p-8 rounded-2xl border border-gray-800 hover:border-brand-500 transition-all duration-300 hover:shadow-[0_0_30px_rgba(14,165,233,0.15)] group reveal" style="transition-delay: 200ms;">
-                    <div class="w-14 h-14 bg-orange-900/50 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-pen-ruler text-2xl text-orange-400"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 group-hover:text-orange-400 transition-colors">3D Modelleme</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Fikirlerinizi teknik çizimlere dönüştürüyoruz. CAD çizimi ve optimizasyon.</p>
-                </div>
-            </div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Title -->
+        <div class="text-center mb-20 reveal">
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-6">
+                Üretim & Tasarım Hizmetleri
+            </h2>
+            <div class="h-1 w-24 bg-brand-500 mx-auto rounded-full"></div>
+            <p class="mt-6 text-gray-400 max-w-2xl mx-auto text-lg">
+                Fikirden prototipe, prototipten son ürüne kadar uçtan uca çözümler sunuyoruz.
+            </p>
         </div>
-    </section>
+
+        <!-- Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            
+            <!-- FDM 3D Print -->
+            <div class="bg-gradient-to-br from-gray-900/60 to-gray-900/30 
+                        p-10 rounded-3xl border border-gray-800 
+                        hover:border-brand-500 transition-all duration-500 
+                        hover:-translate-y-2
+                        hover:shadow-[0_0_40px_rgba(14,165,233,0.25)]
+                        group reveal">
+                
+                <div class="w-16 h-16 bg-brand-900/60 rounded-2xl 
+                            flex items-center justify-center mb-8 
+                            group-hover:scale-110 group-hover:rotate-3 transition-transform">
+                    <i class="fa-solid fa-layer-group text-3xl text-brand-400"></i>
+                </div>
+
+                <h3 class="text-2xl font-bold mb-4 group-hover:text-brand-400 transition-colors">
+                    FDM 3D Baskı
+                </h3>
+
+                <p class="text-gray-400 leading-relaxed mb-6">
+                    Fonksiyonel, dayanıklı ve maliyet-etkin parçalar için endüstriyel FDM baskı çözümleri.
+                </p>
+
+                <ul class="text-sm text-gray-400 space-y-2">
+                    <li>• PLA, PETG, ABS, TPU filament seçenekleri</li>
+                    <li>• Mekanik dayanım odaklı üretim</li>
+                    <li>• Prototip & seri üretime uygun</li>
+                </ul>
+            </div>
+
+            <!-- 3D Modeling -->
+            <div class="bg-gradient-to-br from-gray-900/60 to-gray-900/30 
+                        p-10 rounded-3xl border border-gray-800 
+                        hover:border-orange-400 transition-all duration-500 
+                        hover:-translate-y-2
+                        hover:shadow-[0_0_40px_rgba(251,146,60,0.25)]
+                        group reveal" style="transition-delay:150ms;">
+                
+                <div class="w-16 h-16 bg-orange-900/60 rounded-2xl 
+                            flex items-center justify-center mb-8 
+                            group-hover:scale-110 group-hover:-rotate-3 transition-transform">
+                    <i class="fa-solid fa-pen-ruler text-3xl text-orange-400"></i>
+                </div>
+
+                <h3 class="text-2xl font-bold mb-4 group-hover:text-orange-400 transition-colors">
+                    3D Modelleme & CAD
+                </h3>
+
+                <p class="text-gray-400 leading-relaxed mb-6">
+                    Fikirlerinizi üretilebilir, optimize edilmiş ve teknik olarak doğru modellere dönüştürüyoruz.
+                </p>
+
+                <ul class="text-sm text-gray-400 space-y-2">
+                    <li>• CAD & mühendislik çizimleri</li>
+                    <li>• Baskıya ve üretime uygun optimizasyon</li>
+                    <li>• Revizyon & teknik destek</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>
 
     <!-- Products Showcase -->
     <section id="showcase" class="py-24 relative overflow-hidden">
